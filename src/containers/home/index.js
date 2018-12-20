@@ -1,4 +1,7 @@
 import React from 'react'
+
+import { Button } from 'semantic-ui-react'
+
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -11,10 +14,11 @@ import {
 
 const Home = props => (
   <div>
-    <h1>Home</h1>
+    <h1>Homes</h1>
     <p>Count: {props.count}</p>
 
     <p>
+     <Button>Hello</Button>  
       <button onClick={props.increment}>Increment</button>
       <button onClick={props.incrementAsync} disabled={props.isIncrementing}>
         Increment Async
