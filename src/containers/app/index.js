@@ -11,6 +11,8 @@ import Contact from '../contact'
 import Faq from '../faqs'
 import BookCar from '../book-car'
 
+import Header from '../../components/header';
+
 import { Menu, Segment, Dropdown } from 'semantic-ui-react'
 
 const App = (props) => {
@@ -18,6 +20,7 @@ const App = (props) => {
   return (
   <div>
     <header>
+     <Header />
      <Segment inverted>
         <Menu inverted pointing secondary>
           <Menu.Item name='home' 
@@ -67,7 +70,7 @@ const App = (props) => {
       <Route exact path="/car-listing" component={CarListing} />
       <Route exact path="/faqs" component={Faq} />
       <Route exact path="/contact" component={Contact} />
-      <Route exact path='/book-car' component={BookCar} />
+      <Route exact path='/book-car/:id' component={BookCar} />
     </main>
   </div>
 )}

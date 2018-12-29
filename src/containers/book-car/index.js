@@ -1,22 +1,96 @@
-import React from 'react'
-import { Grid, Container, Tab, Icon, Button, Segment, Form, Card} from 'semantic-ui-react';
+import React, {Component} from 'react'
+import Api from '../../utils/Api';
+import { Grid, Container, Tab, Icon, Button, Segment, Form, Card, Image, Menu} from 'semantic-ui-react';
+
+import Slider from "react-slick";
 
 import Accessories from './Accessories';
 import VehicleOverview from './VehicleOverview';
 import SimilarCars from './SimilarCars';
 
-const panes = [
-    { menuItem: 'Vehicle Overview', render: () => <Tab.Pane attached={false}> <VehicleOverview /> </Tab.Pane> },
-    { menuItem: 'Accessories', render: () => <Tab.Pane attached={false}> <Accessories /> </Tab.Pane> },
-]
+class BookCar extends Component {
 
-const BookCar = () => (
-  <div>
+    constructor(props) {
+        super(props);
+
+        /* CAR IS COMING BACK AS AN ARRAY */
+        this.state = { car: null };
+
+        this.api = new Api();
+
+        this.baseImgUrl = "http://localhost/carrental/admin/img/vehicleimages/";
+
+        this.settings = {
+            dots: true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            autoplay: true
+        };
+
+        this.panes = [
+            { 
+                menuItem: (
+                  <Menu.Item key='msg' style={{'fontSize': '18px', padding: "25px", fontFamily: "Lato', sans-serif"}}>
+                    <h3>Vehicle Overview</h3>
+                  </Menu.Item>
+                ),
+                render: (p) => {
+                    return <Tab.Pane attached={false}> <VehicleOverview text={this.state.car[0].VehiclesOverview} /> </Tab.Pane> 
+                }
+            },
+            { 
+                menuItem: (
+                  <Menu.Item key='acc' style={{'fontSize': '18px', padding: "25px", fontFamily: "Lato', sans-serif"}}>
+                    <h3>Accessories</h3>
+                  </Menu.Item>
+                ),
+                render: () => <Tab.Pane attached={false}> <Accessories data={this.state.car[0]} /> </Tab.Pane> 
+            },
+        ];
+    }
+
+    componentDidMount() {
+        this.api.post("carinfo", "id=2")
+        .then((res) => {
+            console.log("Car info done");
+            this.setState({ car: res });
+        });
+    }
+
+    bookSubmit() {
+    }
+
+    render() {
+        let { car } = this.state;
+
+        if(car === null) return <p>Loading</p>
+        else {
+            car = car[0];
+        return (
+    <div> 
+        <div>
+            <Slider {...this.settings}>
+                <div>
+                    <Image src={this.baseImgUrl + car.Vimage1 } />
+                </div>
+                <div>
+                    <Image src={this.baseImgUrl + car.Vimage2 } />
+                </div>
+                <div>
+                    <Image src={this.baseImgUrl + car.Vimage3 } />
+                </div>
+                <div>
+                    <Image src={this.baseImgUrl + car.Vimage4  } />
+                </div>
+            </Slider>
+        </div>
         <Container>
             <Grid style={{paddingTop: '40px'}}>
                 <Grid.Row>
                     <Grid.Column width={12}>
-                        <h1 style={{fontSize: '3.2em'}}>BMW Car</h1>
+                        <h1 style={{fontSize: '3.2em'}}>{`${car.BrandName}, ${car.VehiclesTitle}`}</h1>
 
                         <Card.Group itemsPerRow={6} style={{paddingTop: '30px'}}>
                             <Card>
@@ -24,7 +98,7 @@ const BookCar = () => (
                                     <Icon color="grey" name="calendar alternate outline" size="huge"></Icon>
                                     <br/> <br/>
                                     <Card.Description>
-                                        <h3>2015</h3>
+                                        <h3>{car.ModelYear}</h3>
                                     </Card.Description>
                                 </Card.Content>
                                 <Card.Content extra>
@@ -37,7 +111,7 @@ const BookCar = () => (
                                     <Icon color="grey" name="car" size="huge"></Icon>
                                     <br/> <br />
                                     <Card.Description>
-                                        <h3>Petrol</h3>
+                                        <h3>{car.FuelType}</h3>
                                     </Card.Description>
                                 </Card.Content>
                                 <Card.Content extra>
@@ -50,7 +124,7 @@ const BookCar = () => (
                                     <Icon color="grey" name="user plus" size="huge"></Icon>
                                     <br/> <br />
                                     <Card.Description>
-                                        <h3>4</h3>
+                                        <h3>{car.SeatingCapacity} </h3>
                                     </Card.Description>
                                 </Card.Content>
                                 <Card.Content extra>
@@ -60,11 +134,11 @@ const BookCar = () => (
                         </Card.Group>
                     
 
-                        <Tab style={{paddingTop: '40px'}} menu={{ secondary: true }} panes={panes} />
+                        <Tab style={{paddingTop: '40px'}} menu={{ secondary: true }} panes={this.panes} />
                     </Grid.Column>
 
                     <Grid.Column width={4}>
-                        <h1 align="right">$ 250</h1>
+                        <h1 align="right">$ {car.PricePerDay}</h1>
                         <p align="right">Per Day</p>
                         <br />
 
@@ -79,7 +153,7 @@ const BookCar = () => (
                         <Segment>    
                             <h2> <Icon name='mail' color="green" /> Book Now</h2>
                         
-                            <Form>
+                            <Form onSubmit={() => this.bookSubmit()}>
                                 <Form.Field>
                                     <label>Pick Up Date</label>
                                     <input placeholder='Pick Up Date' />
@@ -106,6 +180,10 @@ const BookCar = () => (
 
         </Container>
   </div>
-)
+        );
+}
+    }
+}
+
 
 export default BookCar
