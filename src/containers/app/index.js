@@ -10,6 +10,9 @@ import CarListing from '../car-listing'
 import Contact from '../contact'
 import Faq from '../faqs'
 import BookCar from '../book-car'
+import Profile from '../profile'
+import Bookings from '../bookings'
+import UpdatePassword from "../update-password"
 
 import Header from '../../components/header';
 
@@ -53,9 +56,15 @@ const App = (props) => {
           <Menu.Menu position='right'>
             <Dropdown item text='John Smith'>
               <Dropdown.Menu>
-                <Dropdown.Item>Profile Settings</Dropdown.Item>
-                <Dropdown.Item>Update Password</Dropdown.Item>
-                <Dropdown.Item>Post A Testimonial</Dropdown.Item>
+                <Dropdown.Item onClick={() => props.changePage('profile')}>
+                  Profile Settings
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => props.changePage('update-password')}>
+                  Update Password
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => props.changePage('bookings')}>
+                  My Bookings
+                </Dropdown.Item>
                 <Dropdown.Item>Sign Out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -69,6 +78,9 @@ const App = (props) => {
       <Route exact path="/about-us" component={About} />
       <Route exact path="/car-listing" component={CarListing} />
       <Route exact path="/faqs" component={Faq} />
+      <Route exact path="/profile" component={Profile} />
+      <Route exact path="/bookings" component={Bookings} />
+      <Route exact path="/update-password" component={UpdatePassword} />
       <Route exact path="/contact" component={Contact} />
       <Route exact path='/book-car/:id' component={BookCar} />
     </main>

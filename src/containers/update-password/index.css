@@ -1,0 +1,36 @@
+.div_zindex {
+    position: relative;
+    z-index: 1;
+  }
+  .dark-overlay {
+    background: rgba(0, 0, 0, 0.75) none repeat scroll 0 0;
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+  .page-header {
+    background-image: url("http://localhost:3000/images/profile-page-header-img.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 0 none;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+  }
+  .page-header_wrap {
+    padding:60px 0;
+    position:relative;
+    text-align:center;
+  }
+  .page-heading {
+    z-index:1;
+    position:relative;
+  }
+  .page-heading h2, .page-heading h1 {
+    font-size:40px;
+    color: #ffffff;
+    margin: 0 auto;
+  }
